@@ -52,12 +52,9 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'chat',
+                    'controller' => 'gen',
                     'extraPatterns' => [
-                        'POST chat' => 'chat',
-                        'GET sethook' => 'sethook',
-                        'GET hookstatus' => 'hookstatus',
-
+                        'POST index' => 'index',
                     ],
                 ],
             ],
