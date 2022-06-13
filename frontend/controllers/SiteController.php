@@ -4,6 +4,9 @@ namespace frontend\controllers;
 
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Spipu\Html2Pdf\Html2Pdf;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
@@ -76,6 +79,32 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+    public function actionPdfp(){
+        $this->layout = "empty";
+        return $this->render('contract');
+    }
+    public function actionPdf($id = null){
+        $this->layout = 'empty';
+        try {
+
+            $html2pdf = new Html2Pdf('P', 'A4', 'ru',true,'cp1252',[30,12.5,15,20]);
+            $html2pdf->setDefaultFont('dejavusanscondensed');
+//            $html2pdf->addFont('cambria');
+//            $html2pdf->pdf->setDisplayMode('fullpage');
+            $html2pdf->writeHTML(
+                $this->render('contract')
+            );
+            error_reporting(0);
+//            $html2pdf->createIndex('',32,12);
+
+            $html2pdf->output('contact.pdf');
+            exit;
+
+        }catch (Html2PdfException $e){
+            $formatter = new ExceptionFormatter($e);
+            return $formatter->getMessage();
+        }
     }
 
     /**
