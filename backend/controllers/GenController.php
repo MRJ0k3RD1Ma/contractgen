@@ -39,26 +39,31 @@ class GenController extends Controller {
         }else{
             return -1;
         }
+        return null;
     }
 
     public function generate($data){
 
+        $this->layout = 'empty';
         try {
 
-            $html2pdf = new Html2Pdf('P', 'A4', 'ru',true,'UTF-8',[0,0,0,0]);
-            $html2pdf->pdf->setDisplayMode('fullpage');
+            $html2pdf = new Html2Pdf('P', 'A4', 'ru',true,'cp1252',[30,12.5,15,20]);
+//            $html2pdf->setDefaultFont('dejavusanscondensed');
+            $html2pdf->setDefaultFont('Cambria');
+//            $html2pdf->pdf->setDisplayMode('fullpage');
             $html2pdf->writeHTML(
                 $this->render('contract')
             );
             error_reporting(0);
-            $html2pdf->createIndex('',32,12,false,1,'helvetica');
+            $html2pdf->createIndex('',32,12);
 
-            $html2pdf->output('contact.pdf','D');
+            $html2pdf->output('contact.pdf');
             exit;
 
-        }catch (Html2PdfException $e){
+        }catch (Html2PdfException  $e){
+            $html2pdf->clean();
             $formatter = new ExceptionFormatter($e);
-            return $formatter->getMessage();
+            echo $formatter->getHtmlMessage();
         }
 
     }

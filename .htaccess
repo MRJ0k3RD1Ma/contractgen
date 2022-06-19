@@ -5,7 +5,7 @@ AddDefaultCharset UTF-8
     RewriteEngine on
 </IfModule>
 
-
+php_value mbstring.func_overload  0
 
 
 <IfModule mod_rewrite.c>

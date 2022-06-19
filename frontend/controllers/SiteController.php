@@ -4,11 +4,15 @@ namespace frontend\controllers;
 
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
+use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
+use setasign\Fpdi\PdfParser\PdfParserException;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -18,7 +22,8 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
-
+use kartik\mpdf\Pdf;
+use Mpdf\MpdfException;
 /**
  * Site controller
  */
@@ -82,28 +87,52 @@ class SiteController extends Controller
     }
     public function actionPdfp(){
         $this->layout = "empty";
-        return $this->render('contract');
+        return $this->render('cg');
     }
     public function actionPdf($id = null){
         $this->layout = 'empty';
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
+        $fontDirs = $defaultConfig['fontDir'];
+
+        $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
+        $fontData = $defaultFontConfig['fontdata'];
+
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
+            'destination' => Pdf::DEST_BROWSER,
+            'content' => $this->renderPartial('cg'),
+            'methods' => [
+                'SetTitle' => "Titleni yozish garak",
+//                'SetHeader' => ["Titleni yozish garak" . '|| ' . date("r")],
+                'SetFooter' => ['| {PAGENO} |'],
+                'SetAuthor' => '@mdg_admin',
+                'SetCreator' => '@mdg_admin',
+            ]
+        ]);
+        $pdf->options = array_merge($pdf->options , [
+            'fontDir' => array_merge($fontDirs, [ Yii::$app->basePath . '/web/fonts/']),  // make sure you refer the right physical path
+            'fontdata' => array_merge($fontData, [
+                'cambria' => [
+                    'R' => 'Cambria.ttf',
+                    'I' => 'Cambria-Italic.ttf',
+                    'B' => 'Cambria-Bold.ttf',
+                    'BI' => 'Cambria-BoldItalic.ttf',
+                ]
+            ])
+        ]);
         try {
-
-            $html2pdf = new Html2Pdf('P', 'A4', 'ru',true,'cp1252',[30,12.5,15,20]);
-            $html2pdf->setDefaultFont('dejavusanscondensed');
-//            $html2pdf->addFont('cambria');
-//            $html2pdf->pdf->setDisplayMode('fullpage');
-            $html2pdf->writeHTML(
-                $this->render('contract')
-            );
-            error_reporting(0);
-//            $html2pdf->createIndex('',32,12);
-
-            $html2pdf->output('contact.pdf');
-            exit;
-
-        }catch (Html2PdfException $e){
-            $formatter = new ExceptionFormatter($e);
-            return $formatter->getMessage();
+            return $pdf->render();
+        } catch (MpdfException $e) {
+            return $e;
+        } catch (CrossReferenceException $e) {
+            return $e;
+        } catch (PdfTypeException $e) {
+            return $e;
+        } catch (PdfParserException $e) {
+            return $e;
+        } catch (InvalidConfigException $e) {
+            return $e;
         }
     }
 
