@@ -11,6 +11,7 @@ use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
 use Yii;
+use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
@@ -89,51 +90,93 @@ class SiteController extends Controller
         $this->layout = "empty";
         return $this->render('cg');
     }
-    public function actionPdf($id = null){
-        $this->layout = 'empty';
-        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
-        $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
-        $fontDirs = $defaultConfig['fontDir'];
 
-        $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
-        $fontData = $defaultFontConfig['fontdata'];
 
-        $pdf = new Pdf([
-            'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
-            'destination' => Pdf::DEST_BROWSER,
-            'content' => $this->renderPartial('cg'),
-            'methods' => [
-                'SetTitle' => "Titleni yozish garak",
+
+    function get_web_page($id) {
+        $url = "https://app.zerox.uz/api/v1/generatepdf/".$id;
+        $options = array(
+            CURLOPT_RETURNTRANSFER => true,   // return web page
+            CURLOPT_HEADER         => false,  // don't return headers
+            CURLOPT_FOLLOWLOCATION => true,   // follow redirects
+            CURLOPT_MAXREDIRS      => 10,     // stop after 10 redirects
+            CURLOPT_ENCODING       => "",     // handle compressed
+            CURLOPT_USERAGENT      => "test", // name of client
+            CURLOPT_AUTOREFERER    => true,   // set referrer on redirect
+            CURLOPT_CONNECTTIMEOUT => 120,    // time-out on connect
+            CURLOPT_TIMEOUT        => 120,    // time-out on response
+        );
+
+        $ch = curl_init($url);
+        curl_setopt_array($ch, $options);
+
+        $content  = curl_exec($ch);
+
+        curl_close($ch);
+
+        return $content;
+    }
+
+
+    public function actionPdf($id = '62b6d1b1297006f910401b8c'){
+        $json = $this->get_web_page($id);
+        if($json and $json = json_decode($json,true)){
+            if($json['success']){
+                $this->layout = 'empty';
+                Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+                $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
+                $fontDirs = $defaultConfig['fontDir'];
+
+                $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
+                $fontData = $defaultFontConfig['fontdata'];
+
+                $pdf = new Pdf([
+                    'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
+                    'destination' => Pdf::DEST_BROWSER,
+                    'content' => $this->renderPartial('cg',['id'=>$id]),
+                    'methods' => [
+                        'SetTitle' => "Titleni yozish garak",
 //                'SetHeader' => ["Titleni yozish garak" . '|| ' . date("r")],
-                'SetFooter' => ['| {PAGENO} |'],
-                'SetAuthor' => '@mdg_admin',
-                'SetCreator' => '@mdg_admin',
-            ]
-        ]);
-        $pdf->options = array_merge($pdf->options , [
-            'fontDir' => array_merge($fontDirs, [ Yii::$app->basePath . '/web/fonts/']),  // make sure you refer the right physical path
-            'fontdata' => array_merge($fontData, [
-                'cambria' => [
-                    'R' => 'Cambria.ttf',
-                    'I' => 'Cambria-Italic.ttf',
-                    'B' => 'Cambria-Bold.ttf',
-                    'BI' => 'Cambria-BoldItalic.ttf',
-                ]
-            ])
-        ]);
-        try {
-            return $pdf->render();
-        } catch (MpdfException $e) {
-            return $e;
-        } catch (CrossReferenceException $e) {
-            return $e;
-        } catch (PdfTypeException $e) {
-            return $e;
-        } catch (PdfParserException $e) {
-            return $e;
-        } catch (InvalidConfigException $e) {
-            return $e;
+                        'SetFooter' => ['| {PAGENO} |'],
+                        'SetAuthor' => '@mdg_admin',
+                        'SetCreator' => '@mdg_admin',
+                    ]
+                ]);
+
+
+                $pdf->options = array_merge($pdf->options , [
+                    'fontDir' => array_merge($fontDirs, [ Yii::$app->basePath . '/web/fonts/']),  // make sure you refer the right physical path
+                    'fontdata' => array_merge($fontData, [
+                        'cambria' => [
+                            'R' => 'Cambria.ttf',
+                            'I' => 'Cambria-Italic.ttf',
+                            'B' => 'Cambria-Bold.ttf',
+                            'BI' => 'Cambria-BoldItalic.ttf',
+                        ]
+                    ])
+                ]);
+                try {
+                    return $pdf->render();
+                } catch (MpdfException $e) {
+                    return $e;
+                } catch (CrossReferenceException $e) {
+                    return $e;
+                } catch (PdfTypeException $e) {
+                    return $e;
+                } catch (PdfParserException $e) {
+                    return $e;
+                } catch (InvalidConfigException $e) {
+                    return $e;
+                }
+
+
+            }else{
+                return "Bunday fayl topilmadi";
+            }
+        }else{
+            return "Bunday fayl topilmadi";
         }
+
     }
 
     /**
