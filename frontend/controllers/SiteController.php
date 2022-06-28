@@ -86,9 +86,17 @@ class SiteController extends Controller
     {
         return $this->render('index');
     }
-    public function actionPdfp(){
-        $this->layout = "empty";
-        return $this->render('cg');
+    public function actionPdfp($id = '62bacfca2845e73857b20304'){
+        $json = $this->get_web_page($id);
+        if($json and $json = json_decode($json,true)){
+            if($json['success']) {
+
+                $this->layout = 'empty';
+                return $this->render('cg',['id'=>$id,'json'=>$json]);
+            }
+        }else{
+            return "Bunday fayl topilmadi";
+        }
     }
 
 
@@ -118,10 +126,11 @@ class SiteController extends Controller
     }
 
 
-    public function actionPdf($id = '62b6d1b1297006f910401b8c'){
+    public function actionPdf($id = '62bacfca2845e73857b20304'){
         $json = $this->get_web_page($id);
         if($json and $json = json_decode($json,true)){
             if($json['success']){
+
                 $this->layout = 'empty';
                 Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
                 $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
@@ -133,7 +142,8 @@ class SiteController extends Controller
                 $pdf = new Pdf([
                     'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
                     'destination' => Pdf::DEST_BROWSER,
-                    'content' => $this->renderPartial('cg',['id'=>$id]),
+                    'content' => $this->renderPartial('cg',['id'=>$id,'json'=>$json]),
+                    'cssFile'=>Yii::$app->basePath.'/web/css/pdf.css',
                     'methods' => [
                         'SetTitle' => "Titleni yozish garak",
 //                'SetHeader' => ["Titleni yozish garak" . '|| ' . date("r")],
