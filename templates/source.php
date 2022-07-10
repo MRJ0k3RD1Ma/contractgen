@@ -1,49 +1,49 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-    $id = $_GET['id'];
-    $lang = strtolower($_GET['lang']);
-    $json = $_GET['body'];
+$id = $_GET['id'];
+$lang = strtolower($_GET['lang']);
+$json = $_GET['body'];
 
-    $acts = $json['acts'];
+$acts = $json['acts'];
 
-    $debitor = $json['contract']['debitor'];
-    $creditor = $json['contract']['creditor'];
+$debitor = $json['contract']['debitor'];
+$creditor = $json['contract']['creditor'];
 
-    $types = [
-        'uz'=>[
-            0=>'Qarz shartnomasi dalolatnomasi',
-            1=>'Qarzni qisman qaytarish bo`yicha dalolatnoma',
-            2=>'Qarzni to`liq qaytarish bo`yicha dalolatnoma',
-            3=>'Qarz muddatini uzaytirish bo`yicha dalolatnoma',
-            4=>'Qarzdan to`liq vos kechish bo`yicha dalolatnoma',
-            5=>'Qarzdan qisman vos kechish bo`yicha dalolatnoma',
-            6=>'Qarzni uzaytirish (debitor)',
-            7=>'Qarzmni qaytarishni talab qilish',
-        ],
-        'oz'=>[
-            0=>'Qarz shartnomasi dalolatnomasi',
-            1=>'Qarzni qisman qaytarish bo`yicha dalolatnoma',
-            2=>'Qarzni to`liq qaytarish bo`yicha dalolatnoma',
-            3=>'Qarz muddatini uzaytirish bo`yicha dalolatnoma',
-            4=>'Qarzdan to`liq vos kechish bo`yicha dalolatnoma',
-            5=>'Qarzdan qisman vos kechish bo`yicha dalolatnoma',
-            6=>'Qarzni uzaytirish (debitor)',
-            7=>'Qarzmni qaytarishni talab qilish',
-        ],
-        'ru'=>[
-            0=>'Qarz shartnomasi dalolatnomasi',
-            1=>'Qarzni qisman qaytarish bo`yicha dalolatnoma',
-            2=>'Qarzni to`liq qaytarish bo`yicha dalolatnoma',
-            3=>'Qarz muddatini uzaytirish bo`yicha dalolatnoma',
-            4=>'Qarzdan to`liq vos kechish bo`yicha dalolatnoma',
-            5=>'Qarzdan qisman vos kechish bo`yicha dalolatnoma',
-            6=>'Qarzni uzaytirish (debitor)',
-            7=>'Qarzmni qaytarishni talab qilish',
-        ]
-    ];
+$types = [
+    'uz'=>[
+        0=>'Qarz shartnomasi dalolatnomasi',
+        1=>'Qarzni qisman qaytarish bo`yicha dalolatnoma',
+        2=>'Qarzni to`liq qaytarish bo`yicha dalolatnoma',
+        3=>'Qarz muddatini uzaytirish bo`yicha dalolatnoma',
+        4=>'Qarzdan to`liq vos kechish bo`yicha dalolatnoma',
+        5=>'Qarzdan qisman vos kechish bo`yicha dalolatnoma',
+        6=>'Qarzni uzaytirish (debitor)',
+        7=>'Qarzmni qaytarishni talab qilish',
+    ],
+    'oz'=>[
+        0=>'Qarz shartnomasi dalolatnomasi',
+        1=>'Qarzni qisman qaytarish bo`yicha dalolatnoma',
+        2=>'Qarzni to`liq qaytarish bo`yicha dalolatnoma',
+        3=>'Qarz muddatini uzaytirish bo`yicha dalolatnoma',
+        4=>'Qarzdan to`liq vos kechish bo`yicha dalolatnoma',
+        5=>'Qarzdan qisman vos kechish bo`yicha dalolatnoma',
+        6=>'Qarzni uzaytirish (debitor)',
+        7=>'Qarzmni qaytarishni talab qilish',
+    ],
+    'ru'=>[
+        0=>'Qarz shartnomasi dalolatnomasi',
+        1=>'Qarzni qisman qaytarish bo`yicha dalolatnoma',
+        2=>'Qarzni to`liq qaytarish bo`yicha dalolatnoma',
+        3=>'Qarz muddatini uzaytirish bo`yicha dalolatnoma',
+        4=>'Qarzdan to`liq vos kechish bo`yicha dalolatnoma',
+        5=>'Qarzdan qisman vos kechish bo`yicha dalolatnoma',
+        6=>'Qarzni uzaytirish (debitor)',
+        7=>'Qarzmni qaytarishni talab qilish',
+    ]
+];
 
-    ?>
+?>
 <?php
 function convertNumberToWord($num = false,$lang = 'uz')
 {
@@ -64,13 +64,13 @@ function convertNumberToWord($num = false,$lang = 'uz')
         );
     }elseif($lang == 'ru'){
         $list1 = array('', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять', 'одиннадцать',
-             'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'
-         );
-         $list2 = array('', 'десять', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто', 'лицо');
-         $list3 = array('', 'тысяча', 'миллион', 'миллиард', 'триллион', 'квадриллион', 'квинтиллион', 'секстиллион', 'септиллион',
-             'октиллион', 'нониллион', 'дециллион', 'ундециллион', 'дудециллион', 'тредециллион', 'кваттюордециллион',
-             'квиндециллион', 'сексдециллион', 'септендециллион', 'октодециллион', 'новемдециллион', 'вигинтиллион'
-         );
+            'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'
+        );
+        $list2 = array('', 'десять', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто', 'лицо');
+        $list3 = array('', 'тысяча', 'миллион', 'миллиард', 'триллион', 'квадриллион', 'квинтиллион', 'секстиллион', 'септиллион',
+            'октиллион', 'нониллион', 'дециллион', 'ундециллион', 'дудециллион', 'тредециллион', 'кваттюордециллион',
+            'квиндециллион', 'сексдециллион', 'септендециллион', 'октодециллион', 'новемдециллион', 'вигинтиллион'
+        );
     }else{
         $list1 = array('', 'bir', 'ikki', 'uch', 'to`rt', 'besh', 'olti', 'yetti', 'sakkiz', 'to`qqiz', 'o`n', 'o`n bir',
             'o`n ikki', 'o`n uch', 'o`n to`rt', 'o`n besh', 'o`n olti', 'o`n yetti', 'o`n sakkiz', 'o`n to`qqiz'
@@ -161,7 +161,8 @@ $qr =function($id) use ($url) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
-<div class="container">
+
+
     <table>
         <tr style="width: 100%">
             <td style="width: 50%">
@@ -179,9 +180,9 @@ $qr =function($id) use ($url) {
     <br>
     <br>
 
-    <p style="text-align: center; font-weight: unset; font-size: 18px"><b><?= $json['contract']['number']?></b> - sonli qarz shartnomasi bo'yicha</p>
+    <p style="text-align: center; font-weight: unset; font-size: 18px"><b><?= $json['contract']['number']?></b> - sonli qarz shartnomasi bo`yicha</p>
 
-    <h2 style="text-align: center">YIG'MA JILD</h2>
+    <h2 style="text-align: center">YIG`MA JILD</h2>
     <table class="table">
         <tr>
             <td>Qarz beruvchi:</td>
@@ -206,8 +207,8 @@ $qr =function($id) use ($url) {
             <td><?= date('d.m.Y',strtotime($json['contract']['end_date'])) ?></td>
         </tr>
     </table>
-
-    <p style="text-align: center; font-weight: unset; font-size: 18px"><b><?= $json['contract']['number']?></b> - sonli qarz shartnomasi mundarijasi</p>
+    <pagebreak/>
+    <p style="text-align: center; font-weight: unset; font-size: 18px; margin: 30px 0 20px 0"><b><?= $json['contract']['number']?></b> - sonli qarz shartnomasi mundarijasi</p>
 
     <table class="table" style="width: 100%">
         <tr>
@@ -222,14 +223,19 @@ $qr =function($id) use ($url) {
         </tr>
         <tr>
             <td>2</td>
+            <td>Dalolatnomalar</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>3</td>
             <td>Hisobot</td>
             <td>-</td>
         </tr>
     </table>
-</div>
+
 <pagebreak />
 
-<div>
+<div style="padding-top:-50px;">
     <table>
         <tr style="width: 100%">
             <td style="width: 50%">
@@ -243,51 +249,43 @@ $qr =function($id) use ($url) {
     </table>
     <div class="box qarz">
         <div class="content-title">
-            <h3>QARZ SHARTNOMASI №<?= $json['contract']['number'] ?></h3>
+            QARZ SHARTNOMASI №<?= $json['contract']['number'] ?>
         </div>
         <div class="content-body">
             <p>
                 <b><?= $debitor['first_name'].' '.$debitor['last_name'].' '.$debitor['middle_name'] ?></b> (pasport:
                 <b><?= $debitor['passport'] ?> <?= $debitor['issued_date'] ?></b> yilda
                 <b><?= $debitor['issued_by'] ?></b> IIB tomonidan berilgan)
-                (keyingi o'rinlarda “qarz beruvchi”) birinchi tomondan,
+                (keyingi o`rinlarda “qarz beruvchi”) birinchi tomondan,
                 <b><?= $creditor['first_name'].' '.$creditor['last_name'].' '.$creditor['middle_name'] ?></b> (pasport:
                 <b><?= $creditor['passport'] ?> <?= $creditor['issued_date'] ?></b> yilda
-                <b><?= $creditor['issued_by'] ?></b> IIB tomonidan berilgan)
-                (keyingi o'rinlarda “qarz oluvchi”) ikkinichi tomondan hamda “Infinity payment
-                system” MCHJ (STIR(INN): 309053853) (keyingi o'rinlarda
-                “Jamiyat”) uchinchi tomondan ushbu shartnomani quyidagilar haqida tuzdilar
+                <b><?= $creditor['issued_by'] ?></b> (keyingi o`rinlarda “qarz oluvchi”) ikkinichi tomondan hamda “Infinity payment system” MCHJ (STIR(INN): 309053853) (keyingi o`rinlarda “Jamiyat”) uchinchi tomondan ushbu shartnomani quyidagilar haqida tuzdilar
             </p>
         </div>
     </div>
     <div class="box qarz">
         <div class="content-title">
-            <h2>1. Shartnoma predmeti</h2>
+            1. Shartnoma predmeti
         </div>
         <div class="content-body">
             <ul>
                 <li>
                     <p>
-                        1.1.Қарз берувчи мазкур шартноманинг шартларига
-                        мувофиқ Қарз олувчига
+                        1.1.Qarz beruvchi mazkur shartnomaning shartlariga muvofiq qarz oluvchiga
                         <b><?= $json['contract']['amount'] ?> (<?= convertNumberToWord($json['contract']['amount'],$lang) ?>) </b>
-                        сўм миқдорида пул маблағини фоизсиз қарзга
-                        беради, Қарз олувчи эса ўз зиммасига мазкур
-                        маблағни қайтариш мажбуриятини олади;
+                        <?= $json['contract']['currency']?>
+                        miqdorida pul mablag`ini foizsiz qarzga beradi, qarz oluvchi esa o`z zimmasiga mazkur mablag`ni qaytarish majburiyatini oladi
                     </p>
                 </li>
                 <li>
                     <p>
-                        1.2.Мазкур шартноманинг 1.1-бандида қайд этилган
-                        миқдордаги қарз суммаси Қарз олувчи томонидан
-                        Қарз берувчига қисмларга бўлиб қайтарилиши
-                        мумкин;
+                        1.2.Mazkur shartnomaning 1.1-bandida qayd etilgan miqdoridagi qarz summasi qarz oluvchi tomonidan qarz beruvchiga qismlarga bo`lib qaytarilishi mumkin;
                     </p>
                 </li>
                 <li>
                     <p>
-                        1.3.Қарзнинг тўлиқ миқдори <b><?= date('d.m.Y',strtotime($json['contract']['end_date'])) ?></b> йилга
-                        қадар қайтарилиши шарт.
+                        1.3.Qarzning to`liq miqdori<b><?= date('d.m.Y',strtotime($json['contract']['end_date'])) ?></b>
+                        yilga qadar qaytarilishi shart.
                     </p>
                 </li>
             </ul>
@@ -295,73 +293,43 @@ $qr =function($id) use ($url) {
     </div>
     <div class="box qarz">
         <div class="content-title">
-            <h2>2.Томонларнинг ҳуқуқ ва мажбуриятлари</h2>
+            2.Tomonlarning huquq va majburiyatlari
         </div>
         <div class="content-body">
             <ul>
                 <li>
                     <p>
-                        2.1.Қарз берувчи мазкур шартнома имзоланган
-                        кундан бошлаб 1 кун муддат ичида шартноманинг
-                        1.1-бандида кўрсатилган миқдордаги пул маблағини
-                        нақд ёки нақдсиз шаклда Қарз олувчига
-                        далолатнома асосида тақдим этади; Далолатномада
-                        у тузилган сана, тарафларнинг реквизитлари, Қарз
-                        олувчига пул маблағи тақдим этилган сана ва
-                        бошқа маълумотлар кўрсатилади. Ушбу далолатнома
-                        Томонлар томонидан махсус электрон имзо (кейинги
-                        ўринларда “Имзо”) билан имзолангандан сўнг
-                        мазкур қарз шартномасининг ажралмас қисми
-                        ҳисобланади.
+                        2.1.Qarz beruvchi mazkur shartnoma imzolangan kundan boshlab 1 kun muddat ichida shartnomaning 1.1-bandida ko`rsatilgan miqdordagi pul mablag`ini
+                        naqd yoki naqdsiz shaklda qarz oluvchiga dalolatnoma asosiyda taqdim etadi; Dalolatnomaga u tuzilgan sana, taraflarning rekvizitlari,
+                        qarz oluvchiga pul mablag`i taqdim etilgan sana va boshqa ma`lumotlar ko`rsatiladi.
+                        Ushbu dalolatnoma tomonlar tomonidan mahsus elektron imzo (keyingi o`rinlarda "imzo") bilan imzolangandan so`ng mazkur qarz shartnomasining ajralmas qismi hisoblanadi.
                     </p>
                 </li>
                 <li>
                     <p>
-                        2.2.Қарз олувчи олинган қарз суммасини мазкур
-                        шартноманинг 1.3-бандида назарда тутилган
-                        муддатга қадар Қарз берувчига қайтаради;
+                        2.2.Qarz oluvchi olgan qarz summasini mazkur shartnomaning 1.3-bandida nazarda tutilgan muddatga qadar qarz beruvchiga qaytaradi;
                     </p>
                 </li>
                 <li>
                     <p>
-                        2.3.Қарз берувчи Қарз олувчидан шартнома бўйича
-                        берилган қарз суммасини шартномада келишилган
-                        муддатдан аввал талаб қилишга, қарз шартномаси
-                        муддатини узайтиришга ва қарздан воз кечишга
-                        ҳақли.
+                        2.3.Qarz beruvchi qarz oluvchidan shartnoma bo`yicha berilgan qarz summasini shartnomada kelishilgan muddatda avval talab qilishga, qarz shartnomasi muddatini uzaytirishga va qarzdan voz kechishga haqli;
                     </p>
                 </li>
                 <li>
                     <p>
-                        2.4.Қарз олувчи Қарз берувчи қарзни қайтариш
-                        ҳақида талаб қўйган кундан бошлаб 1 ой (ўттиз
-                        кун) мобайнида қарзни қайтариши лозим. Агар Қарз
-                        олувчи ўттиз кунлик муддатда Қарз берувчига
-                        қарзни қайтармаса, қарз муддати бузилган
-                        ҳисобланади ва ҳар бир кечиктирилган кун учун
-                        3.1-бандида белгиланган тартибда пеня тўлайди.
+                        2.4.Qarz oluvchi qarz beruvchi qarzni qaytarish haqida talab qo`yilgan kundan boshlab 1 oy (o`ttiz kun) mobaynida qarzni qaytarishi lozim.
+                        Agar qarz oluvchi o`ttiz kunlik muddatda qarz beruvchiga qarzni qaytarmasa, qarz muddati buzilgan hisoblanadi va har bir kechiktirilgan kun uchun 3.1-bandida belgilangan tartibda penya to`laydi;
                     </p>
                 </li>
                 <li>
                     <p>
-                        2.5.Қарз олувчи қарз суммасини муддатидан аввал
-                        Қарз берувчига қайтаришга ва қарз шартномаси
-                        муддатини узайтириш учун сўровнома юборишга
-                        ҳақли.
+                        2.5.Qarz oluvchi qarz summasini muddatidan avval qarz beruvchiga qaytarishga va qarz shartnomasi muddatini uzayitish uchun so`rovnoma yuborishga haqli.
                     </p>
                 </li>
                 <li>
                     <p>
-                        2.6.Томонлар мазкур шартномани электрон шаклда
-                        тасдиқлашганликлари билан улар қарз
-                        шартномасидаги маълумотлар (фойдаланувчининг
-                        статуси, дебитор ва кредитор қарздорликларининг
-                        жами суммаси ҳамда муддати ўтган
-                        қарздорликларининг суммаси) нинг учинчи
-                        шахсларга берилишига розилик билдиришганлигини
-                        англатади. Бунда Жамият томонидан томонларнинг
-                        шахсига оид маълумотлар учинчи шахсларга тақдим
-                        қилинмайди.
+                        2.6.Tomonlar mazkur shartnomani elektron shaklda tasdiqlashganliklari bilan ular qarz shartnomasiga ma`lumotlar (foydalanuvchining statusi, debitor va kreditor qarzdorliklarining jami summasi hamda muddati o`tgan  qarzdorliklarning summasi)ning uchinchi shaxslarga berilishiga rozilik bildirishganligini anglatadi.
+                        Bunda Jamiyat tomonidan tomonlarning shaxsga oid ma`lumotlar uchinchi shaxslarga taqdim qilinmaydi.
                     </p>
                 </li>
             </ul>
@@ -369,18 +337,13 @@ $qr =function($id) use ($url) {
     </div>
     <div class="box qarz">
         <div class="content-title">
-            <h2>3.Томонларнинг жавобгарлиги</h2>
+            3.Tomonlarning javobgarligi
         </div>
         <div class="content-body">
             <ul>
                 <li>
                     <p>
-                        3.1.Қарз олувчи ушбу шартноманинг 1.3-бандида
-                        назарда тутилган муддатга қадар Қарз берувчига
-                        қарзни қайтармаса, ҳар бир кечиктирилган кун
-                        учун 0,5 (ярим) фоиз, лекин қарз суммасининг 50
-                        (эллик) фоизидан ортиқ бўлмаган миқдорда пеня
-                        тўлайди.
+                        3.1. Qarz oluvchi ushbu shartnomaning 1.3-bandida nazarda tutilgan muddatga qadar qarz beruvchiga qarzni qaytarmasa, har bir kechiktirilgan kun uchun 0,5 (yarim) foiz, lekin qarz summasining 50(ellik) foizidan ortiq bo`lmagan miqdorda pernya to`laydi.
                     </p>
                 </li>
             </ul>
@@ -388,86 +351,58 @@ $qr =function($id) use ($url) {
     </div>
     <div class="box qarz">
         <div class="content-title">
-            <h2>4.Шартноманинг бошқа шартлари</h2>
+            4. Shartnomaning boshqa shartlari
         </div>
         <div class="content-body">
             <ul>
                 <li>
                     <p>
-                        4.1.Мазкур шартнома Қарз берувчи ва Қарз олувчи
-                        томонидан <b>“ZeroX”</b> дастури орқали электрон тарзда
-                        тузилади ва Имзо билан тасдиқланади.
+                        4.1. Mazkur shartnoma qarz beruvchi va qarz oluvchi tomonidan "ZeroX" dasturi orqali elektron tarzda tuziladi va Imzo bilan tasdiqlanadi.
+
                     </p>
                 </li>
                 <li>
                     <p>
-                        4.2.“ZeroX” дастуридан фойдаланиш бўйича
-                        тузилган “Универсал шартнома”нинг 11-бандига
-                        асосан биринчи ва иккинчи томонлар шартномани
-                        ўзларига индивидуал тарзда берилган махсус
-                        электрон имзо билан имзоланишига розилигини
-                        билдиради ҳамда махсус электрон имзо қўлда
-                        қўйилган имзо билан бир ҳил аҳамиятга эга
-                        эканлигини зиммасига олади.
+                        4.2. "ZeroX" dasturidan foydalanish bo`yicha tuzilgan "Universal shartnoma"ning 1.1-bandiga asosan birinchi va ikkinchi tomonlar shartnomani o`zlariga individual tarzda berilgan mahsus elektron imzo bilan imzolanishiga roziligini bildiradi hamda mahsus elektron imzo qo`lda qo`yilgan imzo bilan bir xil ahamiyatga ega ekanligini zimmasiga oladi.
                     </p>
                 </li>
                 <li>
                     <p>
-                        4.3.Шартнома томонлар имзоланган вақтдан бошлаб
-                        кучга киради ва <b><?= date('d.m.Y',strtotime($json['contract']['end_date']))?></b> йилга
-                        қадар амал қилади.
+                        4.3. Shartnoma tomonlar imzolagan vaqtdan boshlab kuchga kiradi va
+                        <b><?= date('d.m.Y',strtotime($json['contract']['end_date']))?></b>
+                        yilga qadar amal qiladi.
                     </p>
                 </li>
                 <li>
                     <p>
-                        4.4.Қарз олувчи қарз суммасини муддатидан аввал
-                        Қарз берувчига қайтарган тақдирда қарз суммаси
-                        қарз берувчи томонидан қабул қилиб олинганлиги
-                        ҳақида далолатнома Имзо билан имзоланган кундан
-                        шартнома бекор бўлиши мумкин.
+                        4.4. Qarz oluvchi qarz summasini muddatidan avval qarz beruvchiga qaytargan taqdirda qarz summasi qarz beruvchi tomonidan qabul qilinib olinganligi haqida dalolatnoma Imzo bilan imzolangan kundan shartnoma bekor bo`lishi mumkin.
                     </p>
                 </li>
                 <li>
                     <p>
-                        4.5.Мазкур шартнома ва унинг ажралмас қисми
-                        ҳисобланган далолатномалар электрон тарзда
-                        тузилади ҳамда икки томоннинг “ZeroX”
-                        дастуридаги шахсий кабинетида сақланади.
+                        4.5. Mazkur shartnoma va uning ajralmas qismi hisoblangan dalolatnomalar elektron tarzda tuziladi hamda ikki tomonning "ZeroX" dasturidagi shaxsiy kabinetida saqlanadi.
                     </p>
                 </li>
                 <li>
                     <p>
-                        4.6.Қарз олувчи ва Қарз берувчи томонидан Имзо
-                        билан тасдиқланган мазкур шартномани ва унинг
-                        ажралмас қисми ҳисобланган далолатномаларни
-                        “ZeroX” дастуридаги шахсий кабинетидан исталган
-                        вақтда кўчириб олиши ҳамда чоп этиши мумкин.
+                        4.6. Qarz oluvchi va qarz beruvchi tomonidan Imzo bilan tasdiqlangan mazkur shartnomani va uning ajralmas qismi hisoblangan dalolatnomalarni "ZeroX" dasturidagi shaxsiy kabinetidan istalgan vaqtda ko`rib olishi hamda cho etishi mumkin.
                     </p>
                 </li>
                 <li>
                     <p>
-                        4.7.Имзо билан тасдиқланган мазкур шартнома ва
-                        унинг ажралмас қисми ҳисобланган
-                        далолатномаларнинг сақланишини Жамият ўз
-                        зиммасига олади.
+                        4.7. Imzo bilan tasdiqlangan mazkur shartnoma va uning ajralmas qismi hisoblangan dalolatnomalarning saqlanishini Jamiyat o`z zimasiga oladi.
                     </p>
                 </li>
                 <li>
                     <p>
-                        4.8.Мазкур шартномага киритиладиган ҳар қандай
-                        ўзгартиришлар томонларнинг розилиги асосида
-                        қўшимча шартнома тузиш йўли билан амалга
-                        оширилади.
+                        4.8.Mazkur shartnomaga kiritiladigan har qanday o`zgartirishlar tomonlarning roziligi asosida ko`shimcha shartnoma tuzish yo`li bilan amalga oshiriladi.
                     </p>
                 </li>
                 <li>
                     <p>
-                        4.9.Шартнома юзасидан келиб чиқадиган низолар
-                        томонларнинг ўзаро келишуви билан ҳал этилади.
-                        Жамият шартнома шартлари бажарилишини ўз
-                        зиммасига олмайди. Томонлар ўзаро келишувга
-                        эришмаган тақдирда низо тегишли тартибда суд
-                        орқали ҳал этилади.
+                        4.9.Shartnoma yuzasidan kelib chiqadigan nizolar tomonlarning o`zaro kelishuvi bilan hal etiladi.
+                        Jamiyat shartnoma shartlari bajarilishini o`z zimmasiga olmaydi.
+                        Tomonlar o`zaro kelishuvga erishmagan taqdirda nizo tegishli tartibda sud orqali hal etiladi.
                     </p>
                 </li>
             </ul>
@@ -475,7 +410,7 @@ $qr =function($id) use ($url) {
     </div>
     <div class="box qarz">
         <div class="content-title">
-            <h2>5.Томонларнинг реквизитлари</h2>
+            5.Tomonlarning rekvizitlari
         </div>
         <div class="content-body">
             <table class="rektable">
@@ -503,60 +438,59 @@ $qr =function($id) use ($url) {
 <pagebreak/>
 
 
-    <?php foreach ($acts as $act):?>
-<div class="container">
-    <div class="box qarz">
-        <div class="content-title">
-            DALOLATNOMA
+<?php foreach ($acts as $act):?>
+
+        <div class="box qarz">
+            <div class="content-title">
+                DALOLATNOMA
+            </div>
+            <div class="content-body">
+                <p style="text-align: center;">(<b><?= $json['contract']['number'] ?></b>-sonli qarz shartnomasi bo'yicha qarz mablag'i olinganligi to'g'risida)</p>
+                <p>
+                    Biz quyida imzo qo'yuvchilar,
+                    <b><?= $debitor['first_name'].' '.$debitor['last_name'].' '.$debitor['middle_name'] ?></b> (pasport:
+                    <b><?= $debitor['passport'] ?> <?= $debitor['issued_date'] ?></b> yilda
+                    <b><?= $debitor['issued_by'] ?></b> IIB tomonidan berilgan)
+                    bir tomondan va
+                    <b><?= $creditor['first_name'].' '.$creditor['last_name'].' '.$creditor['middle_name'] ?></b> (pasport:
+                    <b><?= $creditor['passport'] ?> <?= $creditor['issued_date'] ?></b> yilda
+                    <b><?= $creditor['issued_by'] ?></b> IIB tomonidan berilgan)
+                    ikkinichi tomondan ushbu dalolatnomani quyidagilar xaqida tuzdilar:
+                </p>
+                <p>
+                    <b><?= $debitor['first_name'].' '.$debitor['last_name'].' '.$debitor['middle_name'] ?></b> tomonidan
+                    <b><?= $creditor['first_name'].' '.$creditor['last_name'].' '.$creditor['middle_name'] ?></b>ga
+
+                    <?= date('d.m.Y',strtotime($json['contract']['date'])) ?> yildagi <?= $json['contract']['number']?>-sonli qarz shartnomasiga asosan <b><?= $act['residual_amount']?> <?= $json['contract']['currency'] ?> miqdoridagi pul mablag'ini <?= date('d.m.Y',strtotime($act['end_date'])) ?> yilgacha</b> foizsiz qarz sifatida topshirildi.
+                </p>
+                <p>Mazkur dalolatnoma Imzo orqali tasdiqlangan xolda elektron tarzda tuzildi.</p>
+                <p>Dalolatnoma ikki tomonning “ZeroX” dasturidagi shaxsiy kabinetida saqlanadi.</p>
+                <p>Maxsus elektron imzo orqali tasdiqlangan dalolatnomaning saqlanishi jamiyat o'z zimmasiga oladi.</p>
+
+                <table class="rektable">
+                    <tr>
+                        <th>Qarz beruvchi(debitor)</th>
+                        <th>Qarz oluvchi(kreditor)</th>
+                    </tr>
+                    <tr>
+                        <td><?= $debitor['first_name'].' '.$debitor['last_name'].' '.$debitor['middle_name'] ?></td>
+                        <td><?= $creditor['first_name'].' '.$creditor['last_name'].' '.$creditor['middle_name'] ?></td>
+                    </tr>
+                    <tr>
+                        <td><?php $text = "Novidir text chiqishi garak"; echo "<img src='{$qr($text)}' style='float: left'>";?></td>
+                        <td><?php $text = "Novidir text chiqishi garak"; echo "<img src='{$qr($text)}' style='float: right'>";?></td>
+                    </tr>
+                    <tr>
+                        <td>Sana: <?= $json['contract']['date'] ?></td>
+                        <td>Sana: <?= $json['contract']['date'] ?></td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <div class="content-body">
-            <p style="text-align: center;">(<b><?= $json['contract']['number'] ?></b>-sonli qarz shartnomasi bo'yicha qarz mablag'i olinganligi to'g'risida)</p>
-            <p>
-                Biz quyida imzo qo'yuvchilar,
-                <b><?= $debitor['first_name'].' '.$debitor['last_name'].' '.$debitor['middle_name'] ?></b> (pasport:
-                <b><?= $debitor['passport'] ?> <?= $debitor['issued_date'] ?></b> yilda
-                <b><?= $debitor['issued_by'] ?></b> IIB tomonidan berilgan)
-                bir tomondan va
-                <b><?= $creditor['first_name'].' '.$creditor['last_name'].' '.$creditor['middle_name'] ?></b> (pasport:
-                <b><?= $creditor['passport'] ?> <?= $creditor['issued_date'] ?></b> yilda
-                <b><?= $creditor['issued_by'] ?></b> IIB tomonidan berilgan)
-                ikkinichi tomondan ushbu dalolatnomani quyidagilar xaqida tuzdilar:
-            </p>
-            <p>
-                <b><?= $debitor['first_name'].' '.$debitor['last_name'].' '.$debitor['middle_name'] ?></b> tomonidan
-                <b><?= $creditor['first_name'].' '.$creditor['last_name'].' '.$creditor['middle_name'] ?></b>ga
 
-                <?= date('d.m.Y',strtotime($json['contract']['date'])) ?> yildagi <?= $json['contract']['number']?>-sonli qarz shartnomasiga asosan <b><?= $act['residual_amount']?> <?= $json['contract']['currency'] ?> miqdoridagi pul mablag'ini <?= date('d.m.Y',strtotime($act['end_date'])) ?> yilgacha</b> foizsiz qarz sifatida topshirildi.
-            </p>
-            <p>Mazkur dalolatnoma Imzo orqali tasdiqlangan xolda elektron tarzda tuzildi.</p>
-            <p>Dalolatnoma ikki tomonning “ZeroX” dasturidagi shaxsiy kabinetida saqlanadi.</p>
-            <p>Maxsus elektron imzo orqali tasdiqlangan dalolatnomaning saqlanishi jamiyat o'z zimmasiga oladi.</p>
+    <pagebreak/>
+<?php endforeach;?>
 
-            <table class="rektable">
-                <tr>
-                    <th>Qarz beruvchi(debitor)</th>
-                    <th>Qarz oluvchi(kreditor)</th>
-                </tr>
-                <tr>
-                    <td><?= $debitor['first_name'].' '.$debitor['last_name'].' '.$debitor['middle_name'] ?></td>
-                    <td><?= $creditor['first_name'].' '.$creditor['last_name'].' '.$creditor['middle_name'] ?></td>
-                </tr>
-                <tr>
-                    <td><?php $text = "Novidir text chiqishi garak"; echo "<img src='{$qr($text)}' style='float: left'>";?></td>
-                    <td><?php $text = "Novidir text chiqishi garak"; echo "<img src='{$qr($text)}' style='float: right'>";?></td>
-                </tr>
-                <tr>
-                    <td>Sana: <?= $json['contract']['date'] ?></td>
-                    <td>Sana: <?= $json['contract']['date'] ?></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-        <pagebreak/>
-    <?php endforeach;?>
-
-<div class="container">
     <div class="box qarz">
         <p style="text-align: center"><?= $json['contract']['number']?>-sonli qarz shartnomasi bo’yicha</p>
         <div class="content-title">
@@ -566,19 +500,19 @@ $qr =function($id) use ($url) {
 
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>№</th>
-                        <th>Hujjat turi</th>
-                        <th>Rasmiylashtirilgan sana</th>
-                        <th>Qarz miqdori</th>
-                        <th>Qaytarilgan miqdor</th>
-                        <th>Voz kechilgan miqdor</th>
-                        <th>Qoldiq qarz miqdori</th>
-                        <th>Qarzni qaytarish sanasi</th>
-                    </tr>
+                <tr>
+                    <th>№</th>
+                    <th>Hujjat turi</th>
+                    <th>Rasmiylashtirilgan sana</th>
+                    <th>Qarz miqdori</th>
+                    <th>Qaytarilgan miqdor</th>
+                    <th>Voz kechilgan miqdor</th>
+                    <th>Qoldiq qarz miqdori</th>
+                    <th>Qarzni qaytarish sanasi</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <?php $qoldiq = 0; $n = 0; foreach ($acts as $act): $n++; $qoldiq = $act['residual_amount'];?>
+                <?php $qoldiq = 0; $n = 0; foreach ($acts as $act): $n++; $qoldiq = $act['residual_amount'];?>
                     <tr>
                         <td><?= $n?></td>
                         <td><?= $types[$lang][$act['type']] ?></td>
@@ -589,17 +523,16 @@ $qr =function($id) use ($url) {
                         <td><?= $act['residual_amount']==0?'-':$act['residual_amount'].' '.$json['contract']['currency'] ?></td>
                         <td><?= date('d.m.Y',strtotime($act['end_date'])) ?></td>
                     </tr>
-                    <?php endforeach;?>
-                    <tr>
-                        <td colspan="6" style="text-align: center">Qaytarilishi lozim bo'gan qarz miqdori:</td>
-                        <td colspan="2" style="text-align: center"><?= $qoldiq.' '.$json['contract']['currency']?></td>
-                    </tr>
+                <?php endforeach;?>
+                <tr>
+                    <td colspan="6" style="text-align: center">Qaytarilishi lozim bo'gan qarz miqdori:</td>
+                    <td colspan="2" style="text-align: center"><?= $qoldiq.' '.$json['contract']['currency']?></td>
+                </tr>
                 </tbody>
             </table>
 
         </div>
     </div>
-</div>
 
 
 </body>

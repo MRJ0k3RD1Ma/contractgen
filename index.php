@@ -29,8 +29,9 @@
     ]);
 
     $body = $res->getBody();
-
-    $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
+//echo $body;
+//exit;
+$defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
     $fontDirs = $defaultConfig['fontDir'];
 
     $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
