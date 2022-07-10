@@ -182,8 +182,8 @@ $qr =function($id) use ($url) {
 
     <p style="text-align: center; font-weight: unset; font-size: 18px"><b><?= $json['contract']['number']?></b> - sonli qarz shartnomasi bo`yicha</p>
 
-    <h2 style="text-align: center">YIG`MA JILD</h2>
-    <table class="table">
+    <h2 style="text-align: center" id="__mpdfinternallink_1">YIG`MA JILD</h2>
+    <table class="toptable" style="width:90%">
         <tr>
             <td>Qarz beruvchi:</td>
             <td><?= $debitor['first_name'].' '.$debitor['last_name'].' '.$debitor['middle_name'] ?></td>
@@ -191,12 +191,10 @@ $qr =function($id) use ($url) {
         <tr>
             <td>Qarz oluvchi:</td>
             <td><?= $creditor['first_name'].' '.$creditor['last_name'].' '.$creditor['middle_name'] ?></td>
-
         </tr>
         <tr>
             <td>Qarz olingan sana:</td>
             <td><?= date('d.m.Y',strtotime($json['contract']['date'])) ?></td>
-
         </tr>
         <tr>
             <td>Qarz miqdori:</td>
@@ -207,35 +205,40 @@ $qr =function($id) use ($url) {
             <td><?= date('d.m.Y',strtotime($json['contract']['end_date'])) ?></td>
         </tr>
     </table>
+
+
+    <p style="text-align: center; display: block; width:85%; font-weight: bold; position: absolute; bottom:80px; font-size: 18px; ">Zerox dasturi – 2022 yil</p>
     <pagebreak/>
     <p style="text-align: center; font-weight: unset; font-size: 18px; margin: 30px 0 20px 0"><b><?= $json['contract']['number']?></b> - sonli qarz shartnomasi mundarijasi</p>
 
-    <table class="table" style="width: 100%">
+    <table class="hisobot" style="width: 100%">
         <tr>
             <th>№</th>
-            <th>Hisobot turi</th>
-            <th>Beti</th>
+            <th>Hujjat turi</th>
+            <th>Varog`i</th>
         </tr>
         <tr>
-            <td>1</td>
+            <td style="text-align: center">1</td>
             <td>Qarz shartnomasi</td>
-            <td>-</td>
+            <td style="text-align: center">3</td>
         </tr>
+        <?php $n=0; foreach ($acts as $item):$n++;?>
         <tr>
-            <td>2</td>
-            <td>Dalolatnomalar</td>
-            <td>-</td>
+            <td style="text-align: center"><?= $n+1?></td>
+            <td><?= $types[$lang][$item['type']]?></td>
+            <td style="text-align: center"><?= $n + 4?></td>
         </tr>
+        <?php endforeach;?>
         <tr>
-            <td>3</td>
+            <td style="text-align: center"><?= $n+2?></td>
             <td>Hisobot</td>
-            <td>-</td>
+            <td style="text-align: center"><?= $n+5?></td>
         </tr>
     </table>
 
 <pagebreak />
 
-<div style="padding-top:-50px;">
+<div>
     <table>
         <tr style="width: 100%">
             <td style="width: 50%">
@@ -248,7 +251,7 @@ $qr =function($id) use ($url) {
         </tr>
     </table>
     <div class="box qarz">
-        <div class="content-title">
+        <div class="content-title" style="font-size: 18px; margin-bottom:10px;">
             QARZ SHARTNOMASI №<?= $json['contract']['number'] ?>
         </div>
         <div class="content-body">
@@ -438,9 +441,10 @@ $qr =function($id) use ($url) {
 <pagebreak/>
 
 
-<?php foreach ($acts as $act):?>
+<?php $n=2; foreach ($acts as $act): $n++;?>
 
-        <div class="box qarz">
+        <div class="box qarz" id="__mpdfinernallink_<?= $n?>">
+
             <div class="content-title">
                 DALOLATNOMA
             </div>

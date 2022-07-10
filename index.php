@@ -55,7 +55,7 @@ $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
         'default_font' => 'times'
     ]);
 
-
+$mpdf->setFooter('{PAGENO}');
 
 $stylesheet = file_get_contents(__DIR__.'/templates/fonts/custom.css');
 
