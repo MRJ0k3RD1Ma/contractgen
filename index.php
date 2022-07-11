@@ -13,8 +13,8 @@
     }
 
     $client = new Client();
-    $id = $_GET['id'];
-    $lang = $_GET['lang'];
+    $id = isset($_GET['id'])?$_GET['id'] : -1;
+    $lang = isset($_GET['lang'])?$_GET['lang']:'uz';
     $resServer = $client->request("GET", "https://app.zerox.uz/api/v1/generatepdf/$id", [
         'query' => [],
     ]);
@@ -24,7 +24,7 @@
         die();
     }
 
-    $res = $client->request('GET', 'http://pdf.lc/templates/source.php', [
+    $res = $client->request('GET', 'http://pdf.lc/templates/source_uz.php', [
         'query' => ['id'=>$id,'body' => $body, 'lang' => $lang],
     ]);
 
